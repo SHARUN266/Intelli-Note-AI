@@ -33,7 +33,7 @@ function UploadPdfDialogue({ children }) {
     setLoading(true);
     // Step 1: Get a short-lived upload URL
     const postUrl = await generateUploadUrl();
-     // Step 2: POST the file to the URL
+    // Step 2: POST the file to the URL
      const result = await fetch(postUrl, {
       method: "POST",
       headers: { "Content-Type": file?.type },
