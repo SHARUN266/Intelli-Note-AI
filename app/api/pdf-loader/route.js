@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
-const pdfUrl="https://moonlit-fly-258.convex.cloud/api/storage/9a461012-541d-4889-b83b-b0a52e558a80"
+//const pdfUrl="https://moonlit-fly-258.convex.cloud/api/storage/9a461012-541d-4889-b83b-b0a52e558a80"
 export async function GET(req){
+
+    const reqUrl=req.url;
+    const {searchParams}=new URL(reqUrl);  
+    const pdfUrl=searchParams.get("pdfUrl"); 
     //1. Load the PDF from the URL
     const response=await fetch(pdfUrl);
     const data=await response.blob();

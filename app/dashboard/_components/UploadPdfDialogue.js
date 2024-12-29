@@ -28,37 +28,45 @@ function UploadPdfDialogue({ children }) {
   const [file, setFile] = useState();
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState("");
+  const [open,setOpen]=useState(false);
   const OnFileSelect = (event) => {
     setFile(event.target.files[0]);
   };
   const onUpload = async () => {
     setLoading(true);
     // Step 1: Get a short-lived upload URL
-    // const postUrl = await generateUploadUrl();
-    // // Step 2: POST the file to the URL
-    //  const result = await fetch(postUrl, {
-    //   method: "POST",
-    //   headers: { "Content-Type": file?.type },
-    //   body: file,
-    // });
-    // const { storageId } = await result.json();
+    const postUrl = await generateUploadUrl();
+    // Step 2: POST the file to the URL
+     const result = await fetch(postUrl, {
+      method: "POST",
+      headers: { "Content-Type": file?.type },
+      body: file,
+    });
+    const { storageId } = await result.json();
 
-    // //step 3: Add the file entry to the database
-    // const fileId=uuidv4();
-    // const fileUrl=await getFileUrl({storageId:storageId})
-    // const response=await AddFileEntry({ fileId, storageId, fileName: fileName??'Untitle File',fileUrl:fileUrl, createdBy: user?.primaryEmailAddress?.emailAddress});
-    // console.log("resp", response);
-    //API Call to Fetch PDF Process Data:- 
-    const apiResponse = await axios.get("/api/pdf-loader");
-    embeddDocument({})
-    console.log("apiResponse", apiResponse.data);
+    //step 3: Add the file entry to the database
+    const fileId=uuidv4();
+    const fileUrl=await getFileUrl({storageId:storageId})
+    const response=await AddFileEntry({ fileId, storageId, fileName: fileName??'Untitle File',fileUrl:fileUrl, createdBy: user?.primaryEmailAddress?.emailAddress});
+
+    // API Call to Fetch PDF Process Data:- 
+    const apiResponse = await axios.get("/api/pdf-loader?pdfUrl="+fileUrl);
+    console.log(apiResponse.data.result);
+     await embeddDocument({
+      splitText:apiResponse.data.result,
+       fileId:fileId
+     })
+   
     setLoading(false);
+    setOpen(false)
 
   }
   return (
     <div>
-      <Dialog>
-        <DialogTrigger asChild>{children}</DialogTrigger>
+      <Dialog open={open} >
+        <DialogTrigger asChild>
+          <Button onClick={()=>setOpen(true)} className="w-full">+ Upload PDF File</Button>
+        </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Upload Pdf File</DialogTitle>
@@ -85,7 +93,7 @@ function UploadPdfDialogue({ children }) {
                 Close
               </Button>
             </DialogClose>
-            <Button onClick={onUpload}  >
+            <Button onClick={onUpload} disabled={loading} >
               {
                 loading?<Loader2Icon className="animate-spin"  />:"Upload"
               }

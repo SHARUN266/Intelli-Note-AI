@@ -2,15 +2,19 @@ import { ConvexVectorStore } from "@langchain/community/vectorstores/convex";
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { TaskType } from "@google/generative-ai";
 import { action } from "./_generated/server.js";
+import { v } from "convex/values";
 
 export const ingest = action({
   args: {
-    splitText
+    splitText:v.any(),
+    fileId:v.string(),
+
+
   },
-  handler: async (ctx) => {
+  handler: async (ctx,args) => {
     await ConvexVectorStore.fromTexts(
-      ["Hello world", "Bye bye", "What's this?"],
-      [{ prop: 2 }, { prop: 1 }, { prop: 3 }],
+      args.splitText,
+      args.fileId,
       new GoogleGenerativeAIEmbeddings({
         apiKey:'AIzaSyCI_1M5kmMrePfdsc8NLEqbAsPS29iC70o',
         model: "text-embedding-004", // 768 dimensions
@@ -18,6 +22,7 @@ export const ingest = action({
         title: "Document title",
       }),
       { ctx }
-    );
+ );
+    return "Completed";
   },
 });
