@@ -12,16 +12,18 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useMutation } from "convex/react";
+import { useAction, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Loader2Icon } from "lucide-react";
 import { v4 as uuidv4 } from 'uuid';
 import { useUser } from "@clerk/nextjs";
 import { getFileUrl } from "@/convex/fileStorage";
+import axios from "axios";
 function UploadPdfDialogue({ children }) {
   const generateUploadUrl = useMutation(api.fileStorage.generateUploadUrl);
   const AddFileEntry=useMutation(api.fileStorage.AddFileEntryToDb);
   const getFileUrl=useMutation(api.fileStorage.getFileUrl);
+  const embeddDocument=useAction(api.myAction.ingest)
   const {user}=useUser();
   const [file, setFile] = useState();
   const [loading, setLoading] = useState(false);
@@ -32,20 +34,24 @@ function UploadPdfDialogue({ children }) {
   const onUpload = async () => {
     setLoading(true);
     // Step 1: Get a short-lived upload URL
-    const postUrl = await generateUploadUrl();
-    // Step 2: POST the file to the URL
-     const result = await fetch(postUrl, {
-      method: "POST",
-      headers: { "Content-Type": file?.type },
-      body: file,
-    });
-    const { storageId } = await result.json();
+    // const postUrl = await generateUploadUrl();
+    // // Step 2: POST the file to the URL
+    //  const result = await fetch(postUrl, {
+    //   method: "POST",
+    //   headers: { "Content-Type": file?.type },
+    //   body: file,
+    // });
+    // const { storageId } = await result.json();
 
-    //step 3: Add the file entry to the database
-    const fileId=uuidv4();
-    const fileUrl=await getFileUrl({storageId:storageId})
-    const response=await AddFileEntry({ fileId, storageId, fileName: fileName??'Untitle File',fileUrl:fileUrl, createdBy: user?.primaryEmailAddress?.emailAddress});
-    console.log("resp", response);
+    // //step 3: Add the file entry to the database
+    // const fileId=uuidv4();
+    // const fileUrl=await getFileUrl({storageId:storageId})
+    // const response=await AddFileEntry({ fileId, storageId, fileName: fileName??'Untitle File',fileUrl:fileUrl, createdBy: user?.primaryEmailAddress?.emailAddress});
+    // console.log("resp", response);
+    //API Call to Fetch PDF Process Data:- 
+    const apiResponse = await axios.get("/api/pdf-loader");
+    embeddDocument({})
+    console.log("apiResponse", apiResponse.data);
     setLoading(false);
 
   }
