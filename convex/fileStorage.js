@@ -37,3 +37,11 @@ export const getFileUrl=mutation({
    return url;
   }
 })
+
+
+export const GetFileRecord=query({
+  args:{
+    fileId:v.string()
+  }
+  
+})
