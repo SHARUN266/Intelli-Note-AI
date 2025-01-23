@@ -1,3 +1,4 @@
+import { chatSession } from "@/configs/AIModel";
 import { api } from "@/convex/_generated/api";
 import { useAction } from "convex/react";
 import {
@@ -28,12 +29,20 @@ function EditorExtension({ editor }) {
       editor.state.selection.to,
       ' '
     )
-    console.log(selectedText);
+   
     const result=await SearchAI({
       query:selectedText,
       fileId:fileId
     });
-    console.log("Unformatted Result:-",result);
+    console.log(result,"swe");
+    const UnformattedAns=JSON.parse(result);
+    let AllUnformattedAns=''
+    UnformattedAns&&UnformattedAns.forEach(item=>{
+      AllUnformattedAns=AllUnformattedAns+item.pageContent;
+    })
+    const PROMT=`For question : ${selectedText} and with given content as Answer please give appropriate answer in HTML format. The answer content is : ${AllUnformattedAns}`;
+    const AiModelResult=await chatSession.sendMessage(PROMT);
+    console.log(AiModelResult.response.text());
   }
   return (
     editor && (
