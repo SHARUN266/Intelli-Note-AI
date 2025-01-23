@@ -6,7 +6,8 @@ import {
   Heading3,
   Italic,
   ListIcon,
-  UnderlineIcon,
+  Sparkles,
+ 
  
 } from "lucide-react";
 import React from "react";
@@ -14,6 +15,15 @@ import React from "react";
 
 
 function EditorExtension({ editor }) {
+  const onAiClick=()=>{
+     console.log("Ai button clicked");
+     const selectedText=editor.state.doc.textBetween(
+      editor.state.selection.from,
+      editor.state.selection.to,
+      ' '
+    )
+    console.log(selectedText)
+  }
   return (
     editor && (
       <div className="p-5 ">
@@ -78,6 +88,12 @@ function EditorExtension({ editor }) {
               className={editor.isActive("italic") ? "text-blue-500" : ""}
             >
               <Italic />
+            </button>
+            <button
+              onClick={() => onAiClick()}
+              className={"hover:text-blue-500"}
+            >
+              <Sparkles />
             </button>
           </div>
         </div>
