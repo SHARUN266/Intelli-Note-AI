@@ -1,3 +1,5 @@
+import { api } from "@/convex/_generated/api";
+import { useAction } from "convex/react";
 import {
   Bold,
   CodeIcon,
@@ -10,19 +12,28 @@ import {
  
  
 } from "lucide-react";
+import { useParams } from "next/navigation";
 import React from "react";
 
 
 
 function EditorExtension({ editor }) {
-  const onAiClick=()=>{
+  const {fileId}=useParams();
+  const SearchAI=useAction(api.myAction.search);
+
+  const onAiClick=async()=>{
      console.log("Ai button clicked");
      const selectedText=editor.state.doc.textBetween(
       editor.state.selection.from,
       editor.state.selection.to,
       ' '
     )
-    console.log(selectedText)
+    console.log(selectedText);
+    const result=await SearchAI({
+      query:selectedText,
+      fileId:fileId
+    });
+    console.log("Unformatted Result:-",result);
   }
   return (
     editor && (
