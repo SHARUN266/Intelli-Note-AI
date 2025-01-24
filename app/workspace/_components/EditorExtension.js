@@ -34,15 +34,29 @@ function EditorExtension({ editor }) {
       query:selectedText,
       fileId:fileId
     });
-    console.log(result,"swe");
+  
     const UnformattedAns=JSON.parse(result);
     let AllUnformattedAns=''
     UnformattedAns&&UnformattedAns.forEach(item=>{
       AllUnformattedAns=AllUnformattedAns+item.pageContent;
     })
-    const PROMT=`For question : ${selectedText} and with given content as Answer please give appropriate answer in HTML format. The answer content is : ${AllUnformattedAns}`;
-    const AiModelResult=await chatSession.sendMessage(PROMT);
+    const PROMPT = `You are a highly intelligent assistant designed to extract relevant information from any document and present it in a clean and understandable format. Based on the user's question: "${selectedText}", and the provided document content: "${AllUnformattedAns}", follow these steps:
+    1. **Understand the Question**: Focus on the intent of the user's question and extract related information from the content.
+    2. **Extract and Summarize**: Identify key details from the content, even if they are incomplete or messy, and create a concise, directly relevant answer.
+    3. **Handle Missing Information**: If the content doesn't fully answer the question, acknowledge this clearly and provide the best response possible.
+    4. **Format in HTML**: Use proper HTML tags to structure the response:
+       - Use <p> for paragraphs.
+       - Highlight important words or phrases with <b> or <strong>.
+       - If the answer includes steps or lists, use <ul>/<ol>.
+       - For code examples, wrap them in <pre> and <code> tags.
+    5. **Avoid Irrelevance**: Do not include information that is not related to the user's question.
+    
+    Return only the HTML-formatted answer without any extra text or explanation.`;
+    const AiModelResult=await chatSession.sendMessage(PROMPT);
     console.log(AiModelResult.response.text());
+    const FinalAnswer=AiModelResult.response.text().replace("```",'').replace('html','');
+    const AllText=editor.getHTML();
+    editor.commands.setContent(AllText+'<p><strong>Answer: </strong>'+FinalAnswer+'</p>')
   }
   return (
     editor && (
