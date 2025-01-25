@@ -16,6 +16,7 @@ import {
 import { useParams } from "next/navigation";
 import React from "react";
 
+import { toast } from "sonner";
 
 
 function EditorExtension({ editor }) {
@@ -23,7 +24,7 @@ function EditorExtension({ editor }) {
   const SearchAI=useAction(api.myAction.search);
 
   const onAiClick=async()=>{
-     console.log("Ai button clicked");
+     toast("AI is getting your answer")
      const selectedText=editor.state.doc.textBetween(
       editor.state.selection.from,
       editor.state.selection.to,
@@ -54,7 +55,7 @@ function EditorExtension({ editor }) {
     Return only the HTML-formatted answer without any extra text or explanation.`;
     const AiModelResult=await chatSession.sendMessage(PROMPT);
     console.log(AiModelResult.response.text());
-    const FinalAnswer=AiModelResult.response.text().replace("```",'').replace('html','');
+    const FinalAnswer=AiModelResult.response.text().replace("```",'').replace('html','').replace("```",'');
     const AllText=editor.getHTML();
     editor.commands.setContent(AllText+'<p><strong>Answer: </strong>'+FinalAnswer+'</p>')
   }
