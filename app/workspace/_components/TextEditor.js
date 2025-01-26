@@ -2,10 +2,16 @@
 import Placeholder from "@tiptap/extension-placeholder";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import React from "react";
+import React, { useEffect } from "react";
 import EditorExtension from "./EditorExtension";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
-function TextEditor() {
+function TextEditor({fileId}) {
+  const notes=useQuery(api.notes.GetNotes,{
+    fileId:fileId
+  });
+  
   const editor = useEditor({
     extensions: [StarterKit
       ,
@@ -13,14 +19,17 @@ function TextEditor() {
         placeholder:'Write Your notes...'
       })
     ],
-    
-    
-    editorProps:{
+     editorProps:{
       attributes:{
         class:'focus:outline-none h-screen p-5'
       }
     }
   });
+
+ useEffect(()=>{
+  editor?.commands.setContent(notes?.notes);
+ },[notes])
+  
   return (
     <div>
       <EditorExtension editor={editor}  />

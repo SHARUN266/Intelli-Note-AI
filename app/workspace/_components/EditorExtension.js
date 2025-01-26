@@ -1,6 +1,7 @@
 import { chatSession } from "@/configs/AIModel";
 import { api } from "@/convex/_generated/api";
-import { useAction } from "convex/react";
+import { useUser } from "@clerk/nextjs";
+import { useAction, useMutation } from "convex/react";
 import {
   Bold,
   CodeIcon,
@@ -22,7 +23,8 @@ import { toast } from "sonner";
 function EditorExtension({ editor }) {
   const {fileId}=useParams();
   const SearchAI=useAction(api.myAction.search);
-
+  const saveNotes=useMutation(api.notes.AddNotes);
+  const {user}=useUser()
   const onAiClick=async()=>{
      toast("AI is getting your answer")
      const selectedText=editor.state.doc.textBetween(
@@ -57,7 +59,12 @@ function EditorExtension({ editor }) {
     console.log(AiModelResult.response.text());
     const FinalAnswer=AiModelResult.response.text().replace("```",'').replace('html','').replace("```",'');
     const AllText=editor.getHTML();
-    editor.commands.setContent(AllText+'<p><strong>Answer: </strong>'+FinalAnswer+'</p>')
+    editor.commands.setContent(AllText+'<p><strong>Answer: </strong>'+FinalAnswer+'</p>');
+    saveNotes({
+      notes:editor.getHTML(),
+      fileId:fileId,
+      createdBy:user?.primaryEmailAddress?.emailAddress
+    })
   }
   return (
     editor && (
