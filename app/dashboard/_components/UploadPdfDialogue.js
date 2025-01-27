@@ -84,7 +84,7 @@ function UploadPdfDialogue({ children,isMaxFile }) {
                 </div>
                 <div className="mt-2">
                   <label>File Name</label>
-                  <Input placeholder="Enter File Name"  onChange={(e)=>setFileName(e.target.value)} />
+                  <Input placeholder="Enter File Name" required  onChange={(e)=>setFileName(e.target.value)} />
                 </div>
               </div>
             </DialogDescription>

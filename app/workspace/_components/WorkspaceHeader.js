@@ -12,12 +12,12 @@ function WorkspaceHeader({fileName}) {
         <Image src={'/logo.svg'} alt='logo' width={140} height={100} />
         </Link>
         <h2>{fileName}</h2>
-        <div>
+        {/* <div>
           <Button>
             Save
             <Save/>
           </Button>
-        </div>
+        </div> */}
         <UserButton/>
 
     </div>
