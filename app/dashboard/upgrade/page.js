@@ -15,7 +15,7 @@ function UpgradePlans() {
   };
 
   const onPaymentCancel=()=>{
-    alert("Payment Cancelled");
+    toast("Plan upgraded cacenlled!");
   }
   return (
     <div>
@@ -182,7 +182,7 @@ function UpgradePlans() {
                 </strong>
 
                 <span className="text-sm font-medium text-gray-700">
-                  /lifetime
+                  /year
                 </span>
               </p>
             </div>
@@ -204,7 +204,7 @@ function UpgradePlans() {
                   />
                 </svg>
 
-                <span className="text-gray-700"> 5 PDF Upload </span>
+                <span className="text-gray-700"> 30 PDF Upload </span>
               </li>
 
               <li className="flex items-center gap-1">
