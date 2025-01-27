@@ -29,10 +29,10 @@ function Dashboard() {
                   }
                 </h2>
                 <h2>
-                  {
-                    file?._creationTime
-                  }
-                </h2>
+  {file?._creationTime
+    ? new Date(file?._creationTime / 1000).toLocaleString()
+    : "No D&T"}
+</h2>
               </div>
               </Link>
             )

@@ -48,7 +48,7 @@ function Sidebar() {
      {!GetUserInfo?.upgrade&& <div className="absolute bottom-24 w-[80%]">
         <Progress value={(fileList?.length / 30) * 100} />
         <p className="text-sm mt-1">
-          {fileList?.length && 0} out of 30 Pdf Uploaded
+          {fileList?.length} out of 30 Pdf Uploaded
         </p>
         <p className="text-sm text-gray-400 mt-2">
           Upgrade to Upload more PDF{" "}
