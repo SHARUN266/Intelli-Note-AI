@@ -28,11 +28,11 @@ function Dashboard() {
                     file?.fileName
                   }
                 </h2>
-                <h2>
+                <h6 className="text-sm text-slate-200">
                   {file?._creationTime
                     ? new Date(file?._creationTime / 1000).toLocaleString()
                     : "No D&T"}
-                </h2>
+                </h6>
               </div>
             </Link>
           )
