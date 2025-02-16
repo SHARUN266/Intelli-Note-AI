@@ -20,6 +20,7 @@ import React from "react";
 import { toast } from "sonner";
 
 
+
 function EditorExtension({ editor }) {
   const {fileId}=useParams();
   const SearchAI=useAction(api.myAction.search);
@@ -139,6 +140,7 @@ function EditorExtension({ editor }) {
             </button>
           </div>
         </div>
+        <StreamingText text={"Unfortunately, the provided document content is empty. Therefore, I cannot answer the question 'What is Orion Intelligent?; based on the given information."} speed={75}/>
       </div>
     )
   );
