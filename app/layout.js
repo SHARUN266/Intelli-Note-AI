@@ -17,7 +17,8 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <head>
-          <AdSense pId={'ca-pub-8880385119289443'} />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8880385119289443"
+     crossorigin="anonymous"></script>
         </head>
         <body className={outfit.className}>
           <Provider>{children}</Provider>
