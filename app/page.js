@@ -35,7 +35,7 @@ export default function Home() {
                     <span className="block text-red-600 xl:inline">Tool </span>
                     With
                   </span>
-                  <span className="block xl:inline"> Sharun </span>
+                  <span className="block xl:inline">Sharun </span>
                 </h1>
                 <p className="mx-auto text-base text-gray-500 sm:max-w-md lg:text-xl md:max-w-3xl">
                   Elevate your PDF experience with AI-powered tools. Extract
