@@ -57,18 +57,30 @@ function EditorExtension({ editor }) {
        - If the answer includes steps or lists, use <ul>/<ol>.
        - For code examples, wrap them in <pre> and <code> tags.
     5. **Avoid Irrelevance**: Do not include information that is not related to the user's question.
-    
+    **Please be polite while not answer not found**
     Return only the HTML-formatted answer without any extra text or explanation.`;
     const AiModelResult=await chatSession.sendMessage(PROMPT);
    // console.log(AiModelResult.response.text());
     const FinalAnswer=AiModelResult.response.text().replace("```",'').replace('html','').replace("```",'');
     const AllText=editor.getHTML();
-    editor.commands.setContent(AllText+'<p><strong>Answer: </strong>'+FinalAnswer+'</p>');
-    saveNotes({
+   // editor.commands.setContent(AllText+'<p><strong>Answer: </strong>'+FinalAnswer+'</p>');
+    streamText(FinalAnswer,editor).then(()=>{saveNotes({
       notes:editor.getHTML(),
       fileId:fileId,
       createdBy:user?.primaryEmailAddress?.emailAddress
-    })
+    })})
+    async function streamText(FinalAnswer, editor) {
+      let streamedText = "<p><strong>Answer: </strong>";
+    
+      for (let i = 0; i < FinalAnswer.length; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 5)); 
+    
+        streamedText += FinalAnswer.charAt(i); 
+    
+        editor.commands.setContent(AllText + streamedText + "</p>"); 
+      }
+    }
+   
   }
   return (
     editor && (

@@ -21,8 +21,17 @@ export default function RootLayout({ children }) {
      crossorigin="anonymous"></script>
         </head>
         <body className={outfit.className}>
-          <Provider>{children}</Provider>
-          <Toaster/>
+            {/* ✅ Mobile View: Show warning message */}
+            <div className="flex h-screen w-screen items-center justify-center sm:hidden">
+            <h1 className="text-xl font-semibold text-center text-gray-600">
+              This website is not optimized for mobile devices. Please access it on a desktop view.
+            </h1>
+          </div>
+          {/* ✅ Desktop View: Show the full layout */}
+          <div className="hidden sm:block">
+            <Provider>{children}</Provider>
+            <Toaster />
+          </div>
         </body>
       </html>
     </ClerkProvider>

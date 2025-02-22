@@ -9,7 +9,7 @@ function WorkspaceHeader({fileName}) {
   return (
     <div className='p-4 flex justify-between shadow-md'>
       <Link href={'/dashboard'}>
-        <Image src={'/logo.svg'} alt='logo' width={140} height={100} />
+        <Image src={'/logo.png'} alt='logo' width={70} height={20} />
         </Link>
         <h2>{fileName}</h2>
         {/* <div>
