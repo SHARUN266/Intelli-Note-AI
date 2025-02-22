@@ -3,7 +3,7 @@ import { Outfit } from "next/font/google";
 import Provider from "./provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
-import AdSense from "./Adsense/AdSense";
+
 
 export const metadata = {
   title: "IntelliNote-PDF",

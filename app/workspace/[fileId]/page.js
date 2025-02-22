@@ -13,7 +13,7 @@ function Workspace() {
         fileId:fileId
     });
     useEffect(()=>{
-      console.log(fileInfo)
+    //  console.log(fileInfo)
     },[fileInfo])
 
   return (

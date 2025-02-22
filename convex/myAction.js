@@ -46,7 +46,7 @@ export const search=action({
       { ctx }
       );
       const resultOne=await (await vectorStore.similaritySearch(args.query,1)).filter(q=>q.metadata.fileId==args.fileId);
-      console.log(resultOne)
+     // console.log(resultOne,"wwfewe")
       return JSON.stringify(resultOne);
    }
 })

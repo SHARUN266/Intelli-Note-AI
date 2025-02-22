@@ -44,7 +44,10 @@ function EditorExtension({ editor }) {
     UnformattedAns&&UnformattedAns.forEach(item=>{
       AllUnformattedAns=AllUnformattedAns+item.pageContent;
     })
+
+   // console.log(selectedText,"sele")
     const PROMPT = `You are a highly intelligent assistant designed to extract relevant information from any document and present it in a clean and understandable format. Based on the user's question: "${selectedText}", and the provided document content: "${AllUnformattedAns}", follow these steps:
+    ***Check***: Identify if the user's question is in their language (like hindi or roman hindi) that in English or your preference then give answer to *user* preference language.
     1. **Understand the Question**: Focus on the intent of the user's question and extract related information from the content.
     2. **Extract and Summarize**: Identify key details from the content, even if they are incomplete or messy, and create a concise, directly relevant answer.
     3. **Handle Missing Information**: If the content doesn't fully answer the question, acknowledge this clearly and provide the best response possible.
@@ -57,7 +60,7 @@ function EditorExtension({ editor }) {
     
     Return only the HTML-formatted answer without any extra text or explanation.`;
     const AiModelResult=await chatSession.sendMessage(PROMPT);
-    console.log(AiModelResult.response.text());
+   // console.log(AiModelResult.response.text());
     const FinalAnswer=AiModelResult.response.text().replace("```",'').replace('html','').replace("```",'');
     const AllText=editor.getHTML();
     editor.commands.setContent(AllText+'<p><strong>Answer: </strong>'+FinalAnswer+'</p>');
@@ -140,7 +143,7 @@ function EditorExtension({ editor }) {
             </button>
           </div>
         </div>
-        <StreamingText text={"Unfortunately, the provided document content is empty. Therefore, I cannot answer the question 'What is Orion Intelligent?; based on the given information."} speed={75}/>
+       
       </div>
     )
   );

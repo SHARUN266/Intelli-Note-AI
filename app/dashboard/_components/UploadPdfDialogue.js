@@ -15,21 +15,21 @@ import { Button } from "@/components/ui/button";
 import { useAction, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Loader2Icon } from "lucide-react";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { useUser } from "@clerk/nextjs";
 import { getFileUrl } from "@/convex/fileStorage";
 import axios from "axios";
 import { toast } from "sonner";
-function UploadPdfDialogue({ children,isMaxFile }) {
+function UploadPdfDialogue({ children, isMaxFile }) {
   const generateUploadUrl = useMutation(api.fileStorage.generateUploadUrl);
-  const AddFileEntry=useMutation(api.fileStorage.AddFileEntryToDb);
-  const getFileUrl=useMutation(api.fileStorage.getFileUrl);
-  const embeddDocument=useAction(api.myAction.ingest)
-  const {user}=useUser();
+  const AddFileEntry = useMutation(api.fileStorage.AddFileEntryToDb);
+  const getFileUrl = useMutation(api.fileStorage.getFileUrl);
+  const embeddDocument = useAction(api.myAction.ingest);
+  const { user } = useUser();
   const [file, setFile] = useState();
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState("");
-  const [open,setOpen]=useState(false);
+  const [open, setOpen] = useState(false);
   const OnFileSelect = (event) => {
     setFile(event.target.files[0]);
   };
@@ -38,7 +38,7 @@ function UploadPdfDialogue({ children,isMaxFile }) {
     // Step 1: Get a short-lived upload URL
     const postUrl = await generateUploadUrl();
     // Step 2: POST the file to the URL
-     const result = await fetch(postUrl, {
+    const result = await fetch(postUrl, {
       method: "POST",
       headers: { "Content-Type": file?.type },
       body: file,
@@ -46,28 +46,39 @@ function UploadPdfDialogue({ children,isMaxFile }) {
     const { storageId } = await result.json();
 
     //step 3: Add the file entry to the database
-    const fileId=uuidv4();
-    const fileUrl=await getFileUrl({storageId:storageId})
-    const response=await AddFileEntry({ fileId, storageId, fileName: fileName??'Untitle File',fileUrl:fileUrl, createdBy: user?.primaryEmailAddress?.emailAddress});
+    const fileId = uuidv4();
+    const fileUrl = await getFileUrl({ storageId: storageId });
+    const response = await AddFileEntry({
+      fileId,
+      storageId,
+      fileName: fileName ?? "Untitle File",
+      fileUrl: fileUrl,
+      createdBy: user?.primaryEmailAddress?.emailAddress,
+    });
 
-    // API Call to Fetch PDF Process Data:- 
-    const apiResponse = await axios.get("/api/pdf-loader?pdfUrl="+fileUrl);
-    console.log(apiResponse.data.result);
-     await embeddDocument({
-      splitText:apiResponse.data.result,
-       fileId:fileId
-     })
-   
+    // API Call to Fetch PDF Process Data:-
+    const apiResponse = await axios.get("/api/pdf-loader?pdfUrl=" + fileUrl);
+   // console.log(apiResponse.data.result);
+    await embeddDocument({
+      splitText: apiResponse.data.result,
+      fileId: fileId,
+    });
+
     setLoading(false);
     setOpen(false);
-    toast('File is ready !')
-
-  }
+    toast("File is ready !");
+  };
   return (
     <div>
-      <Dialog open={open} >
+      <Dialog open={open}>
         <DialogTrigger asChild>
-          <Button onClick={()=>setOpen(true)} disabled={isMaxFile} className="w-full">+ Upload PDF File</Button>
+          <Button
+            onClick={() => setOpen(true)}
+            disabled={isMaxFile}
+            className="w-full"
+          >
+            + Upload PDF File
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -84,24 +95,28 @@ function UploadPdfDialogue({ children,isMaxFile }) {
                 </div>
                 <div className="mt-2">
                   <label>File Name</label>
-                  <Input placeholder="Enter File Name" required  onChange={(e)=>setFileName(e.target.value)} />
+                  <Input
+                    placeholder="Enter File Name"
+                    required
+                    onChange={(e) => setFileName(e.target.value)}
+                  />
                 </div>
               </div>
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
-              <Button type="button" variant="outline">
+              <Button
+                onClick={() => setOpen(false)}
+                type="button"
+                variant="outline"
+              >
                 Close
               </Button>
             </DialogClose>
-            <Button onClick={onUpload} disabled={loading} >
-              {
-                loading?<Loader2Icon className="animate-spin"  />:"Upload"
-              }
-              
-              
-              </Button>
+            <Button onClick={onUpload} disabled={loading}>
+              {loading ? <Loader2Icon className="animate-spin" /> : "Upload"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
