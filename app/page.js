@@ -6,6 +6,7 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useEffect } from "react";
 import Link from "next/link";
+import Suggestions from "./Components/Suggestions";
 
 export default function Home() {
   const { user } = useUser();
@@ -19,7 +20,7 @@ export default function Home() {
       imageUrl: user?.imageUrl,
       userName: user?.fullName,
     });
-   // console.log(result);
+    // console.log(result);
   };
   return (
     <div>
@@ -29,7 +30,7 @@ export default function Home() {
             <div className="w-full md:w-1/2 md:px-3">
               <div className="w-full pb-6 space-y-6 sm:max-w-md lg:max-w-lg md:space-y-4 lg:space-y-8 xl:space-y-9 sm:pr-5 lg:pr-0 md:pb-0">
                 <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-4xl lg:text-5xl xl:text-6xl">
-                  <span className="block xl:inline">PDF</span>
+                  <span className="block xl:inline">PDF </span>
                   <span className="block text-indigo-600 xl:inline">
                     Notes Taking{" "}
                     <span className="block text-red-600 xl:inline">Tool </span>
@@ -82,7 +83,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full bg-white pt-7 pb-7 md:pt-20 md:pb-24">
+      <section className="w-full bg-white border pt-7 pb-7 md:pt-20 md:pb-24">
         <div className="box-border flex flex-col items-center content-center px-8 mx-auto leading-6 text-black border-0 border-gray-300 border-solid md:flex-row max-w-7xl lg:px-16">
           <div className="box-border relative w-full max-w-md px-4 mt-5 mb-4 -ml-5 text-center bg-no-repeat bg-contain border-solid md:ml-0 md:mt-0 md:max-w-none lg:mb-0 md:w-1/2 xl:pl-10">
             <img
@@ -329,6 +330,9 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </section>
+      <section className="flex items-center justify-center bg-gray-50 py-10 min-w-screen">
+      <Suggestions/>
       </section>
 
       <section className="bg-white">
