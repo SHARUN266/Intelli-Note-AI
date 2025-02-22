@@ -21,11 +21,7 @@ export default function Home() {
       userName: user?.fullName,
     });
     // console.log(result);
-  };
-
-  console.log("EMAIL_USER:", process.env.EMAIL_USER);
-  console.log("EMAIL_PASS:", process.env.EMAIL_PASS);
-  
+  };  
   return (
     <div>
       <section className="px-2 py-32 bg-white md:px-0">
