@@ -59,7 +59,7 @@ export async function POST(req) {
     console.error("Email error:", error);
     return NextResponse.json({
       success: false,
-      message: "Failed to send feedback.",
+      message: `Failed to send feedback:${error}`,
       status: 500,
     });
   }
