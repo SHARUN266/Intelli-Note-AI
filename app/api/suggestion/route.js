@@ -6,15 +6,17 @@ export async function POST(req) {
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
+      port: 465, 
+      secure: true, 
       auth: {
-        user: "sharunattari266@gmail.com", // Your email
-        pass: process.env.NEXT_PUBLIC_APP_PASSWORD, // Use App Password if using Gmail
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS, 
       },
     });
 
     const mailOptions = {
       from: userEmail,
-      to: "sharunattari266@gmail.com",
+      to: process.env.EMAIL_USER,
       subject: "Feedback Received From Intelli-Note",
       replyTo: userEmail,
       html: `
