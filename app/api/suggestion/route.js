@@ -5,12 +5,12 @@ export async function POST(req) {
     const { feedback, userEmail } = await req.json(); // Get data from request body
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      port: 465, 
-      secure: true, 
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.EMAIL_USER, 
-        pass: process.env.EMAIL_PASS, 
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
