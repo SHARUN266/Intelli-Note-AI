@@ -381,7 +381,7 @@ export default function Home() {
             </div>
           </nav>
           <div className="flex justify-center mt-8 space-x-6">
-            <a href="#" className="text-gray-400 hover:text-gray-500">
+            <a href="https://github.com/SHARUN266/IntelliNote-AI" target="_blank" className="text-gray-400 hover:text-gray-500">
               <span className="sr-only">GitHub</span>
               <svg
                 className="w-6 h-6"
