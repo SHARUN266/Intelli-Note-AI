@@ -50,13 +50,14 @@ function EditorExtension({ editor }) {
     ***Check***: Identify if the user's question is in their language (like hindi or roman hindi) that in English or your preference then give answer to *user* preference language.
     1. **Understand the Question**: Focus on the intent of the user's question and extract related information from the content.
     2. **Extract and Summarize**: Identify key details from the content, even if they are incomplete or messy, and create a concise, directly relevant answer.
-    3. **Handle Missing Information**: If the content doesn't fully answer the question, acknowledge this clearly and provide the best response possible.
+    3. **Handle Missing Information**: If the content doesn't fully answer the question, acknowledge this clearly and provide the best response possible or find answer from Gemini API Database.
     4. **Format in HTML**: Use proper HTML tags to structure the response:
        - Use <p> for paragraphs.
        - Highlight important words or phrases with <b> or <strong>.
        - If the answer includes steps or lists, use <ul>/<ol>.
        - For code examples, wrap them in <pre> and <code> tags.
     5. **Avoid Irrelevance**: Do not include information that is not related to the user's question.
+ 
     **Please be polite while not answer not found**
     Return only the HTML-formatted answer without any extra text or explanation.`;
     const AiModelResult=await chatSession.sendMessage(PROMPT);
