@@ -42,7 +42,7 @@ function EditorExtension({ editor }) {
         AllUnformattedAns = AllUnformattedAns + item.pageContent;
       });
 
-   console.log(process.env.NEXT_PUBLIC_PROMPT,"sele")
+  //  console.log(process.env.NEXT_PUBLIC_PROMPT,"sele")
     const PROMPT = `You are a highly intelligent assistant designed to extract relevant information from any document and present it in a clean and understandable format. Based on the user's question: "${selectedText}", and the provided document content: "${AllUnformattedAns}", follow these steps:
   ${process.env.NEXT_PUBLIC_PROMPT}`;
     const AiModelResult = await chatSession.sendMessage(PROMPT);
